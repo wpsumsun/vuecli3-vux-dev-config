@@ -166,7 +166,12 @@ import { register, validate } from '@/api/register.js'
       }
     },
     created() {
-      this.userId = this.$route.query.userId
+      const { userId, source,  isMember } = this.$route.query
+      this.userId = userId
+      this.formData.source = source
+      if (isMember == 1) {
+        this.$router.push({ name: 'order' })
+      }
     },
     methods: {
       handleToast(msg) {
