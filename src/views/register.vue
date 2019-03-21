@@ -74,12 +74,12 @@
         </div> 
         <div class="order-no">
           <p class="order-no-tip">请输入已支付成功的：<br>MSC地中海邮轮飞猪旗舰店，官方微信商城，<br>或电话中心预订订单号码*</p>
-          <input  v-model="formData.orderNumber" class="order-input" type="text">
+          <input  @click="handleBlur" v-model="formData.orderNumber" class="order-input" type="text">
         </div>
         <div class="rules-wrapper">
           <p class="order-no-tip">已仔细阅读并同意以下条款:</p>
-          <div class="rules" @click="$router.push({ name: 'clause' })">《地中海航海家俱乐部条款和细则》</div>
-          <div class="rules" @click="$router.push({ name: 'protocol' })" >《用户授权协议》</div>
+          <div class="rules" @click="handleJump('clause')">《地中海航海家俱乐部条款和细则》</div>
+          <div class="rules" @click="handleJump('protocol')" >《用户授权协议》</div>
         </div>
       </div>
     </div>
@@ -110,6 +110,7 @@
 
 <script>
   import { Datetime, Group, XAddress,  ChinaAddressV4Data, Toast } from 'vux'
+  import { mapState } from 'vuex'
 import Radio from 'vant/lib/radio'
 import RadioGroup from 'vant/lib/radio-group'
 import 'vant/lib/radio/style'
@@ -166,6 +167,7 @@ import { register, validate } from '@/api/register.js'
       }
     },
     created() {
+      this.formData = JSON.parse(JSON.stringify(this.$store.state.app.form))
       const { userId, source,  isMember } = this.$route.query
       this.userId = userId
       this.formData.source = source
@@ -174,6 +176,16 @@ import { register, validate } from '@/api/register.js'
       }
     },
     methods: {
+      handleBlur() {
+        setTimeout(function() {
+                var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+        }, 100);
+      },
+      handleJump(name) {
+        this.$store.commit('MODIFY_FORM', this.formData)
+        this.$router.push({ name })
+      },
       handleToast(msg) {
         this.toastMsg = msg
         this.showPositionValue = true
@@ -181,7 +193,6 @@ import { register, validate } from '@/api/register.js'
       change (value) {
         this.reverseBirthday = value
         this.formData.birthday = value.split('-').reverse().join('-')
-        console.log(this.formData.birthday)
       },
       handleBirthday() {
         this.$refs.birthday.blur()
