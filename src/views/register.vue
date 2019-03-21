@@ -86,7 +86,7 @@
     <div class="btn submit-btn" @click="handleSubmit">提  交</div>
     <group v-show="visibility">
       <datetime 
-        v-model="formData.birthday" 
+        v-model="reverseBirthday" 
         @on-change="change" 
         :order-map="{year: 3, month: 2, day: 1}"
         :min-year="1900"
@@ -133,6 +133,7 @@ import { register, validate } from '@/api/register.js'
         showAddress: false,
         addressData: ChinaAddressV4Data,
         addressArr: [],
+        reverseBirthday: '',
         formData: {
           birthday: '',
           province: '',
@@ -152,6 +153,7 @@ import { register, validate } from '@/api/register.js'
           phoneNumber: '',
           zipCode: '', // 邮政编码
           verificationCode: '',
+          source: '',
         },
         userId: '',
         timer: null,
@@ -172,7 +174,9 @@ import { register, validate } from '@/api/register.js'
         this.showPositionValue = true
       },
       change (value) {
-        this.formData.birthday = value
+        this.reverseBirthday = value
+        this.formData.birthday = value.split('-').reverse().join('-')
+        console.log(this.formData.birthday)
       },
       handleBirthday() {
         this.$refs.birthday.blur()
