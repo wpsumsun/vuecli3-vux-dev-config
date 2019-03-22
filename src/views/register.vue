@@ -1,5 +1,6 @@
 <template>
-  <div class="auth-wrapper" ref="wrapper">
+  <div class="wrapper">
+    <div class="auth-wrapper" ref="wrapper">
     <img class="top-bg" src="../assets/images/top-bg.png">
     <img class="bottom-bg" src="../assets/images/bot-bg.png">
     <div class="title">会员等级匹配<br>登记表</div>
@@ -106,6 +107,7 @@
     </group>
       <toast v-model="showPositionValue" type="text" :time="800" is-show-mask :text="toastMsg" position="top"></toast>
   </div>
+  </div>
 </template>
 
 <script>
@@ -159,7 +161,8 @@ import { register, validate } from '@/api/register.js'
         userId: '',
         timer: null,
         count: 60,
-        scrollHeight: 0
+        scrollHeight: 0,
+        isMember: '',
       }
     },
     computed: {
@@ -169,10 +172,11 @@ import { register, validate } from '@/api/register.js'
     },
     created() {
       this.formData = JSON.parse(JSON.stringify(this.$store.state.app.form))
-      const { user_id: userId, source,  isMember } = this.$route.query
-      this.userId = userId
+      const { user_id, source,  isMember } = this.$route.query
+      this.userId = this.getQueryString('user_id') || ''
+      this.isMember = this.getQueryString('isMember')
       this.formData.source = source
-      if (isMember == 1) {
+      if (this.isMember == 1) {
         this.$router.push({ name: 'order' })
       }
     },
@@ -180,10 +184,15 @@ import { register, validate } from '@/api/register.js'
     },
     methods: {
       handleBlur() {
-        setTimeout(function() {
-                var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
-                window.scrollTo(0, Math.max(scrollHeight - 1, 0));
-        }, 100);
+//         setTimeout(function() {
+//                 var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+//                 window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+//         }, 100);
+      },
+      getQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null) return r[2]; return '';
       },
       handleJump(name) {
         this.$store.commit('MODIFY_FORM', this.formData)
@@ -293,26 +302,32 @@ import { register, validate } from '@/api/register.js'
 
 <style lang="less" scoped>
 @import '../styles/button.less';
+  .wrapper {
+    height: 100vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .auth-wrapper {
     width: 100%;
+    height: auto;
     position: relative;
+    padding-bottom: 3rem;
     background-image: url('../assets/images/bg.png'); 
     background-size: cover;
     background-repeat: no-repeat;
-    overflow: hidden;
     font-family: PingFangSC-light, sans-serif;
     .submit-btn {
       background: #C99B34;
       font-family: PingFangSC-Light, sans-serif;
-      margin: 0 auto 3rem;
+      margin: 0 auto;
       position: relative;
       z-index: 1;
     }
     .top-bg {
       width: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
+      // position: absolute;
+      // left: 0;
+      // top: 0;
     }
     .bottom-bg {
       position: absolute;
@@ -368,7 +383,7 @@ import { register, validate } from '@/api/register.js'
     }
     .form {
       width: 9.0667rem;
-      margin: 9.2267rem auto 0.8rem;
+      margin: 2rem auto 0.8rem;
       background: #fff;
       border-radius: 0.32rem;
       font-family: PingFangSC-Light, sans-serif;
@@ -444,7 +459,7 @@ import { register, validate } from '@/api/register.js'
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            width: 2.1333rem;
+            width: 2.1rem;
             height: 0.96rem;
             background: #C99B34;
             border: 1px solid #C99B34;
