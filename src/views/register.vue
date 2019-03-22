@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-wrapper">
+  <div class="auth-wrapper" ref="wrapper">
     <img class="top-bg" src="../assets/images/top-bg.png">
     <img class="bottom-bg" src="../assets/images/bot-bg.png">
     <div class="title">会员等级匹配<br>登记表</div>
@@ -159,6 +159,7 @@ import { register, validate } from '@/api/register.js'
         userId: '',
         timer: null,
         count: 60,
+        scrollHeight: 0
       }
     },
     computed: {
@@ -168,12 +169,14 @@ import { register, validate } from '@/api/register.js'
     },
     created() {
       this.formData = JSON.parse(JSON.stringify(this.$store.state.app.form))
-      const { userId, source,  isMember } = this.$route.query
+      const { user_id: userId, source,  isMember } = this.$route.query
       this.userId = userId
       this.formData.source = source
       if (isMember == 1) {
         this.$router.push({ name: 'order' })
       }
+    },
+    mounted() {
     },
     methods: {
       handleBlur() {
