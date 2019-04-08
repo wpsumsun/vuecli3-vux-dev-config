@@ -67,7 +67,21 @@
         <div class="form-item">
           <span class="name smaller-name required">电话号码</span>  
           <input v-model="formData.phoneNumber"  class="input smaller-input" type="tel" maxlength="11">
-        </div> 
+        </div>
+        <div class="form-item upload-item2">
+          <span class="name smaller-name required">图片上传</span>
+          <img @click="onClickUpload" class="upload-icon" src="../assets/images/photo.png">(点击上传支付宝等级截图)
+          <input
+            ref="input"
+            @change="handleChange"
+            class="input upload-input"
+            accept="image/x-png,image/gif,image/jpeg"
+            type="file"
+            name="file">
+        </div>
+        <div class="form-item upload-item" v-show="formData.alipayImage">
+          <img class="upload-img" :src="formData.alipayImage">
+        </div>
         <div class="form-item last-item">
           <span class="name smaller-name required">验证码</span>  
           <input maxlength="6" v-model="formData.verificationCode" class="input smallest-input" type="tel">
@@ -117,7 +131,7 @@ import Radio from 'vant/lib/radio'
 import RadioGroup from 'vant/lib/radio-group'
 import 'vant/lib/radio/style'
 import 'vant/lib/radio-group/style'
-import { register, validate } from '@/api/register.js'
+import { register, validate, upload } from '@/api/register.js'
 
   export default {
     components: {
@@ -157,6 +171,7 @@ import { register, validate } from '@/api/register.js'
           zipCode: '', // 邮政编码
           verificationCode: '',
           source: '',
+          alipayImage: ''
         },
         userId: '',
         timer: null,
@@ -184,10 +199,22 @@ import { register, validate } from '@/api/register.js'
     },
     methods: {
       handleBlur() {
-//         setTimeout(function() {
-//                 var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
-//                 window.scrollTo(0, Math.max(scrollHeight - 1, 0));
-//         }, 100);
+        console.log(1)
+      },
+      handleChange(e) {
+        let postFiles = Array.prototype.slice.call(e.target.files)[0]
+        const formData = new FormData()
+        formData.append('file', postFiles)
+        upload(formData).then(res => {
+          if (res.data.code === '0') {
+            this.handleToast(res.data.msg)
+          } else {
+            this.$set(this.formData, 'alipayImage', res.data.result[0] || '')
+          }
+        })
+      },
+      onClickUpload() {
+        this.$refs.input.click()
       },
       getQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -252,6 +279,10 @@ import { register, validate } from '@/api/register.js'
         }
         if (!phoneReg.test(this.formData.phoneNumber)) {
           this.handleToast('请填写正确的手机号') 
+          return
+        }
+        if (!this.formData.alipayImage) {
+          this.handleToast('请先上传支付宝等级截图')
           return
         }
         if (!this.formData.verificationCode) {
@@ -328,6 +359,21 @@ import { register, validate } from '@/api/register.js'
       // position: absolute;
       // left: 0;
       // top: 0;
+    }
+    .upload-input {
+      display: none;
+    }
+    .upload-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .upload-item2 {
+      align-items: center;
+      font-size: 0.32rem;
+    }
+    .upload-img {
+      max-height: 6rem;
     }
     .bottom-bg {
       position: absolute;
@@ -411,6 +457,11 @@ import { register, validate } from '@/api/register.js'
       &-main {
         .form-item {
           margin-bottom: 0.2667rem;
+          .upload-icon {
+            width: 0.64rem;
+            vertical-align: -0.1333rem;
+            margin-right: 5px;
+          }
           &.last-item {
             margin-right: 0.72rem;
             border-bottom: 1px dashed #C99B34;

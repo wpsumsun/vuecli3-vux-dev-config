@@ -17,3 +17,13 @@ export function validate(data)  {
         params: data
     })
 }
+
+// 图片上传
+export function upload(data)  {
+  return request({
+    url: '/member/uploadImage',
+    method: 'post',
+    headers: {'Content-Type': 'multipart/form-data' },
+    data
+  })
+}
