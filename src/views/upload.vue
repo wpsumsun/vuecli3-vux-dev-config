@@ -4,8 +4,11 @@
     <img class="bottom-bg" src="../assets/images/bot-bg.png">
     <img class="logo" src="../assets/images/logo.png">
     <div class="order-wrapper">
-      <img class="order-header" src="../assets/images/order-header.png">
+      <!-- <img class="order-header" src="../assets/images/uploadbg.png"> -->
       <p class="desc">第一步：请您上传支付宝<span>会员等级</span>照片</p>
+      <div class="upload-wrapper">
+        
+      </div>
     </div>
     <div class="btn agree-btn order-btn" @click="handleOrder">提交</div>
   </div>
@@ -15,7 +18,11 @@
   export default {
     data () {
       return {
+        formData: {},
       }
+    },
+    created() {
+      this.formData = JSON.parse(JSON.stringify(this.$store.state.app.form))
     },
     methods: {
       handleOrder() {
@@ -30,13 +37,13 @@
 @import '../styles/button.less';
   .auth-wrapper {
     width: 100%;
-    height: 100vh;
-    min-height: 17.7867rem;
+    min-height: 100vh;
     position: relative;
     font-family: PingFangSC-Medium, sans-serif;
     background-image: url('../assets/images/bg.png'); 
     background-size: cover;
     background-repeat: no-repeat;
+    padding: 2.8rem 0 1.6rem;
     .top-bg {
       width: 100%;
       position: absolute;
@@ -56,19 +63,14 @@
       top: 1.54rem;
     }
     .order-wrapper {
-      position: absolute;
       width: 9.0667rem;
-      left: 50%;
-      top: 2.8rem;
-      transform: translateX(-50%);
-      z-index: 2;
+      height: 19.8267rem;
+      margin: 0 auto 0.5333rem;
       text-align: center;
-      .order-header {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
+      position: relative;
+      background-image: url('../assets/images/uploadbg.png'); 
+      background-size: cover;
+      background-repeat: no-repeat;
       .desc {
         position: absolute;
         top: 2.4933rem;
@@ -84,8 +86,9 @@
       }
     }
     .order-btn {
-      position: absolute;
-      top: 12.7467rem;
+      position: static;
+      margin: 0 auto;
+      transform: translate(0) !important;
     }
     .right-btn {
       position: absolute;

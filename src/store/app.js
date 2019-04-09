@@ -21,6 +21,9 @@ const app = {
         zipCode: '', // 邮政编码
         verificationCode: '',
         source: '',
+        alipayMemberInfoImage: '',
+        alipayMemberLevelImage: '',
+        memberLevel: 1  // 0:非会员 1：钻石   2：铂金
       }
   },
   mutations: {

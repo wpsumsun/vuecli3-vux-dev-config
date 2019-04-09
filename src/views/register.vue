@@ -3,11 +3,12 @@
     <div class="auth-wrapper" ref="wrapper">
     <img class="top-bg" src="../assets/images/top-bg.png">
     <img class="bottom-bg" src="../assets/images/bot-bg.png">
-    <div class="title">会员等级匹配<br>登记表</div>
+    <div class="title">地中海<br>航海家俱乐部<br><span> 会员申请表</span></div>
     <div class="header-wrapper">
-      <img class="zhifubao" src="../assets/images/register-header.png">
+      <img class="zhifubao" src="../assets/images/register-header1.png">
       <div class="tip">
-        欢迎您申请加入地中海航海家俱乐部。支付宝铂金<br>会员可使用积分匹配至金卡会员；支付宝钻石会员可<br>使用积分匹配至黑卡会员，让您的航程更加精彩！<br>请填写以下表格，开启您的申请之旅。</div>
+        加入地中海航海家俱乐部，尊享各种船上特权和礼遇，<br>让您的航程更精彩！
+      </div>
     </div>
     <div class="form">
       <div class="form-tip">
@@ -88,10 +89,10 @@
           <div class="validate-btn" @click="handleSend" :class="{ disabled: timer }">{{  timer ? count : '发送验证码' }}</div>
         </div>
         <div class="form-item last-item radio-wrapper">
-          <van-radio v-model="formData.gender" :name="1" shape="square" checked-color="#152342">支付宝钻石会员</van-radio>
-          <van-radio v-model="formData.gender" :name="2" shape="square" checked-color="#152342">支付宝铂金会员</van-radio>
+          <van-radio v-model="formData.memberLevel" :name="1" shape="square" checked-color="#152342">支付宝钻石会员</van-radio>
+          <van-radio v-model="formData.memberLevel" :name="2" shape="square" checked-color="#152342">支付宝铂金会员</van-radio>
           <div class="upload-btn" @click="handleJump('upload')">点击上传支付宝<span>会员级别</span>与<span>个人信息</span>照片</div>
-          <van-radio v-model="formData.gender" :name="3" shape="square" checked-color="#152342">非支付宝钻石会员/铂金会员</van-radio>
+          <van-radio v-model="formData.memberLevel" :name="0" shape="square" checked-color="#152342">非支付宝钻石会员/铂金会员</van-radio>
           <div class="tips">
             <p>* 支付宝会员匹配仅限本人申请一次，每个支付宝会员账户仅 限使用一次。</p>
             <p>* 同意并授权地中海邮轮查看及使用支付宝会员信息（等级、 积分）以便你享有相关福利 。</p>
@@ -191,7 +192,9 @@ import { register, validate, upload } from '@/api/register.js'
           zipCode: '', // 邮政编码
           verificationCode: '',
           source: '',
-          alipayImage: ''
+          alipayMemberInfoImage: '',
+          alipayMemberLevelImage: '',
+          memberLevel: 1  // 0:非会员 1：钻石   2：铂金
         },
         userId: '',
         timer: null,
@@ -405,22 +408,26 @@ import { register, validate, upload } from '@/api/register.js'
       font-size: 0.88rem;
       position: absolute;
       right: 0.6133rem;
-      top: 1.0667rem;
-      font-family: PingFangSC-light, sans-serif;
+      top: 0.8rem;
+      font-family: PingFangSC-Medium, sans-serif;
       color: #152342;
       text-align: right;
+      line-height: 0.96rem;
+      >span {
+        font-family: PingFangSC-Light, sans-serif;
+      }
     }
     .header-wrapper {
       position: absolute;
       width: 9.0667rem;
       left: 50%;
-      top: 2.8rem;
+      top: 3.8rem;
       transform: translateX(-50%);
       z-index: 2;
       .tip {
         font-size: 0.32rem;
         line-height: 0.5333rem;
-        margin-top: 2.5333rem;
+        margin-top: 2.4333rem;
         position: relative;
         z-index: 2;
         padding-left: 1.04rem;
@@ -521,7 +528,7 @@ import { register, validate, upload } from '@/api/register.js'
     }
     .form {
       width: 9.0667rem;
-      margin: 2rem auto 0.8rem;
+      margin: 1.3rem auto 0.8rem;
       background: #fff;
       border-radius: 0.32rem;
       font-family: PingFangSC-Light, sans-serif;
