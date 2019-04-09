@@ -6,6 +6,7 @@ import Order from './views/order'
 import Protocol from './views/protocol'
 import Clause from './views/clause'
 import Right from './views/right'
+import Upload from './views/upload'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/clause',
       name: 'clause',
       component: Clause
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: Upload
     },
   ]
 })

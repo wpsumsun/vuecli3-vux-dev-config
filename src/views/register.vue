@@ -68,34 +68,54 @@
           <span class="name smaller-name required">电话号码</span>  
           <input v-model="formData.phoneNumber"  class="input smaller-input" type="tel" maxlength="11">
         </div>
-        <div class="form-item upload-item2">
-          <span class="name smaller-name required">图片上传</span>
-          <img @click="onClickUpload" class="upload-icon" src="../assets/images/photo.png">(点击上传支付宝等级截图)
-          <input
-            ref="input"
-            @change="handleChange"
-            class="input upload-input"
-            accept="image/x-png,image/gif,image/jpeg"
-            type="file"
-            name="file">
-        </div>
+        <!--<div class="form-item upload-item2">-->
+          <!--<span class="name smaller-name required">图片上传</span>-->
+          <!--<img @click="onClickUpload" class="upload-icon" src="../assets/images/photo.png">(点击上传支付宝等级截图)-->
+          <!--<input-->
+            <!--ref="input"-->
+            <!--@change="handleChange"-->
+            <!--class="input upload-input"-->
+            <!--accept="image/x-png,image/gif,image/jpeg"-->
+            <!--type="file"-->
+            <!--name="file">-->
+        <!--</div>-->
         <div class="form-item upload-item" v-show="formData.alipayImage">
           <img class="upload-img" :src="formData.alipayImage">
         </div>
-        <div class="form-item last-item">
+        <div class="form-item">
           <span class="name smaller-name required">验证码</span>  
           <input maxlength="6" v-model="formData.verificationCode" class="input smallest-input" type="tel">
           <div class="validate-btn" @click="handleSend" :class="{ disabled: timer }">{{  timer ? count : '发送验证码' }}</div>
-        </div> 
-        <div class="order-no">
+        </div>
+        <div class="form-item last-item radio-wrapper">
+          <van-radio v-model="formData.gender" :name="1" shape="square" checked-color="#152342">支付宝钻石会员</van-radio>
+          <van-radio v-model="formData.gender" :name="2" shape="square" checked-color="#152342">支付宝铂金会员</van-radio>
+          <div class="upload-btn" @click="handleJump('upload')">点击上传支付宝<span>会员级别</span>与<span>个人信息</span>照片</div>
+          <van-radio v-model="formData.gender" :name="3" shape="square" checked-color="#152342">非支付宝钻石会员/铂金会员</van-radio>
+          <div class="tips">
+            <p>* 支付宝会员匹配仅限本人申请一次，每个支付宝会员账户仅 限使用一次。</p>
+            <p>* 同意并授权地中海邮轮查看及使用支付宝会员信息（等级、 积分）以便你享有相关福利 。</p>
+            <p>* MSC地中海邮轮不接受18周岁以下宾客申请会员匹配。</p>
+          </div>
+        </div>
+        <div class="form-item">
+            <div class="protocol-wrapper">
+              <p class="title1">请在阅读隐私信息文件后，表示同意个人 资料用作下列用途:</p>
+              <p class="detail">MSC地中海邮轮希望能与您联系，告知您有关MSC 地中海邮轮或其子公司及合作伙伴的相关新产品和 特惠信息。您同意通过邮寄、电子邮件和/或电话 等方式与您取得联系。 </p>
+              <p class="detail">MSC地中海游轮可合理收集相关信息数据分析(定制营销策略的消费习惯分析)</p>
+              <p class="instruction">* 有关信息的用途、处理方式、数据提供方式及任何拒绝使 用信息造成的后果以及信息处理权限均遵守相关规定，详情 请参考地中海邮轮官网<a href="https://www.msccruises.com.cn">https://www.msccruises.com.cn</a>。</p>
+              <p class="instruction">* 了解地中海航海家俱乐部更多信息，请参阅官网上发布的<a class="link" href="#">条件及条款</a></p>
+            </div>
+          </div>
+        <!-- <div class="order-no">
           <p class="order-no-tip">请输入已支付成功的：<br>MSC地中海邮轮飞猪旗舰店，官方微信商城，<br>或电话中心预订订单号码*</p>
           <input  @click="handleBlur" v-model="formData.orderNumber" class="order-input" type="text">
-        </div>
-        <div class="rules-wrapper">
+        </div> -->
+        <!-- <div class="rules-wrapper">
           <p class="order-no-tip">已仔细阅读并同意以下条款:</p>
           <div class="rules" @click="handleJump('clause')">《地中海航海家俱乐部条款和细则》</div>
           <div class="rules" @click="handleJump('protocol')" >《用户授权协议》</div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="btn submit-btn" @click="handleSubmit">提  交</div>
@@ -425,6 +445,78 @@ import { register, validate, upload } from '@/api/register.js'
           margin-right: 10px;
           // font-size: 
         }
+      }
+    }
+    .radio-wrapper /deep/{
+      .tips {
+        font-size: 0.28rem;
+        line-height: 0.5333rem;
+        color: #747575;
+        margin-top: 0.5333rem;
+        font-family: PingFangSC-Light, sans-serif;
+      }
+      .van-radio {
+        margin-left: 0 !important;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.3733rem;
+        .van-icon {
+          margin-right: 10px;
+          // font-size:
+        }
+
+      }
+    }
+    .protocol-wrapper {
+      line-height: 0.5867rem;
+      font-family: PingFangSC-Medium, sans-serif;
+      padding-right: 0.5rem;
+      a {
+        color: #747575;
+      }
+      .link {
+        text-decoration: underline;
+      }
+      .title1 {
+        color: #011E41;
+        font-size: 0.3733rem;
+      }
+      .detail {
+        font-size: 0.32rem;
+        color: #14233C;
+        margin-top: 0.16rem;
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 0.1333rem;
+          height: 0.1333rem;
+          background: #14233C;
+          border-radius: 50%;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+      .instruction {
+        color: #747575;
+        line-height: 0.5333rem;
+        font-size: 0.28rem;
+        letter-spacing: -0.5px;
+        margin-top: 0.2133rem;
+      }
+    }
+    .upload-btn {
+      width: 100%;
+      height: 0.9867rem;
+      border: 1px solid #747575;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.36rem;
+      border-radius: 0.9867rem;
+      margin: 0.6rem 0;
+      >span {
+        font-weight: bold;
+        color: #C99B34;
       }
     }
     .form {
