@@ -273,6 +273,7 @@ import { register, validate, upload } from '@/api/register.js'
       },
       handleSubmit() {
         console.log(this.formData)
+        return
         const nameReg = /^[a-zA-Z]+$/
         const phoneReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\d{8}$/
         const emailReg = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/
@@ -312,10 +313,10 @@ import { register, validate, upload } from '@/api/register.js'
           this.handleToast('请填写验证码') 
           return
         }
-        if (!this.formData.orderNumber) {
-          this.handleToast('请填写预定订单编号') 
-          return
-        }
+        // if (!this.formData.orderNumber) {
+        //   this.handleToast('请填写预定订单编号') 
+        //   return
+        // }
         const option = Object.assign(this.formData, { userId: this.userId })
         register(option).then(res => {
           if (res.data.code === '0') {
