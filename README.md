@@ -1,4 +1,4 @@
-# dizhonghai
+### 本项目提供vue-cli3配合vux使用的配置，vux虽然配置繁琐，但是该UI库功能还是蛮强大
 
 ## Project setup
 ```
