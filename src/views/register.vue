@@ -105,7 +105,7 @@
               <p class="detail">MSC地中海邮轮希望能与您联系，告知您有关MSC 地中海邮轮或其子公司及合作伙伴的相关新产品和 特惠信息。您同意通过邮寄、电子邮件和/或电话 等方式与您取得联系。 </p>
               <p class="detail">MSC地中海游轮可合理收集相关信息数据分析(定制营销策略的消费习惯分析)</p>
               <p class="instruction">* 有关信息的用途、处理方式、数据提供方式及任何拒绝使 用信息造成的后果以及信息处理权限均遵守相关规定，详情 请参考地中海邮轮官网<a href="https://www.msccruises.com.cn">https://www.msccruises.com.cn</a>。</p>
-              <p class="instruction">* 了解地中海航海家俱乐部更多信息，请参阅官网上发布的<a class="link" href="#">条件及条款</a></p>
+              <p class="instruction">* 了解地中海航海家俱乐部更多信息，请参阅官网上发布的<a @click="handleJump('clause')" class="link" href="#">条件及条款</a></p>
             </div>
           </div>
         <!-- <div class="order-no">
@@ -148,11 +148,11 @@
 <script>
   import { Datetime, Group, XAddress,  ChinaAddressV4Data, Toast } from 'vux'
   import { mapState } from 'vuex'
-import Radio from 'vant/lib/radio'
-import RadioGroup from 'vant/lib/radio-group'
-import 'vant/lib/radio/style'
-import 'vant/lib/radio-group/style'
-import { register, validate, upload } from '@/api/register.js'
+  import Radio from 'vant/lib/radio'
+  import RadioGroup from 'vant/lib/radio-group'
+  import 'vant/lib/radio/style'
+  import 'vant/lib/radio-group/style'
+  import { register, validate, upload } from '@/api/register.js'
 
   export default {
     components: {
@@ -272,8 +272,6 @@ import { register, validate, upload } from '@/api/register.js'
         this.formData.city = names[1]
       },
       handleSubmit() {
-        console.log(this.formData)
-        return
         const nameReg = /^[a-zA-Z]+$/
         const phoneReg = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\d{8}$/
         const emailReg = /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/
@@ -305,12 +303,16 @@ import { register, validate, upload } from '@/api/register.js'
           this.handleToast('请填写正确的手机号') 
           return
         }
-        if (!this.formData.alipayImage) {
-          this.handleToast('请先上传支付宝等级截图')
+        if (!this.formData.verificationCode) {
+          this.handleToast('请填写验证码')
           return
         }
-        if (!this.formData.verificationCode) {
-          this.handleToast('请填写验证码') 
+        if (!this.formData.alipayMemberLevelImage) {
+          this.handleToast('请先上传支付宝会员等级照片')
+          return
+        }
+        if (!this.formData.alipayMemberInfoImage) {
+          this.handleToast('请先上传支付宝个人信息照片')
           return
         }
         // if (!this.formData.orderNumber) {
