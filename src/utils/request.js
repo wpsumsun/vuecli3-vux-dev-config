@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const  request = axios.create({
-    baseURL: 'https://gw.56kabao.com/alipay-msc',
+    // baseURL: '/alipay-msc',
+    baseURL: 'https://membership.msccruises.com.cn/alipay-msc',
     timeout: 5000
   })
 
